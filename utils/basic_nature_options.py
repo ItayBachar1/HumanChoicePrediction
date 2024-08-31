@@ -15,4 +15,16 @@ pers = [[1, 1, 1, 0, 0],
 [0, 1, 0, 1, 0],
 [1, 0, 0, 0, 0],
 [1, 0, 0, 1, 0],
+[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],  #history_GPT4
+[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],  #history_Llama3
+[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],  #GPT4
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],  #Llama3
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],  #EilamStochasticLLM
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  #EilamHistoryTrustful
+[1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],  #EilamBestResults
+[1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],  #Random,history_GPT4,GPT4
+[1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0],  #Random,history_Llama3,Llama3
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],  #history_and_eilam_llm
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],  #history_and_eilam_stochastic_llm
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],  #history_and_stochastic_llm_Llama3
         ]

@@ -18,6 +18,7 @@ from tqdm import trange
 import pandas as pd
 from consts import *
 from utils import personas
+import json
 
 
 class OfflineDataSet(Dataset):
@@ -229,6 +230,20 @@ class OnlineSimulationDataSet(Dataset):
             good_topics = [str(t) for t in good_topics]
             bad_topics = [11, 20, 21, 22, 23, 24, 25, 26, 27, 36, 40]
             bad_topics = [str(t) for t in bad_topics]
+
+            # load generated scores
+            with open(f"Llama3_generated_score.json", 'r') as file:
+                llama3_generated_scores = json.load(file)
+                llama3_generated_scores = {int(k): v for k, v in llama3_generated_scores.items()}
+
+            file_path = 'hotel_reviews_with_scores_GPT4o.csv'
+            output_df = pd.read_csv(file_path)
+            gpt4o_generated_scores = output_df.set_index('review_id')['generated_score'].to_dict()
+
+            with open(f"data/baseline_proba2go.txt", 'r') as file:
+                proba2go = json.load(file)
+                proba2go = {int(k): 10*v for k, v in proba2go.items()}
+
             if favorite_topic_method == "random":
                 positive_topics = np.random.choice(good_topics, 3)
                 negative_topics = np.random.choice(bad_topics, 3)
@@ -250,6 +265,19 @@ class OnlineSimulationDataSet(Dataset):
                                                                                             quality_threshold)),
                             4: ("LLM stochastic (Language-based)",  basic_nature[3], user_strategies.LLM_based(is_stochastic=True)),
                             5: ("LLM deterministic", basic_nature[4], user_strategies.LLM_based(is_stochastic=False)),
+                            6: ("history_and_llm_gpt4o_without_stats", basic_nature[5],
+                                 user_strategies.history_and_llm(history_window, quality_threshold,
+                                                                 gpt4o_generated_scores, use_statistics=False)),
+                            7: ("history_and_llm_Llama3_without_stats", basic_nature[6],
+                                 user_strategies.history_and_llm(history_window, quality_threshold,
+                                                                 llama3_generated_scores, use_statistics=False)),
+                            8: ("llm_gpt4o", basic_nature[7], user_strategies.llm_model(gpt4o_generated_scores)),
+                            9: ("llm_Llama3", basic_nature[8], user_strategies.llm_model(llama3_generated_scores)),
+                            10: ("history_and_eilam_llm", basic_nature[9], user_strategies.history_and_llm(history_window, quality_threshold, proba2go, use_statistics=False)),
+                            11: ("history_and_eilam_stochastic_llm", basic_nature[10], user_strategies.history_and_llm_stochastic(history_window, quality_threshold, proba2go, use_statistics=False)),
+                            12: ("history_and_stochastic_llm_Llama3", basic_nature[11],
+                                 user_strategies.history_and_llm_stochastic(history_window, quality_threshold, llama3_generated_scores,
+                                                                            use_statistics=False)),
                             }
             self.nature = np.random.rand(len(self.ACTIONS)) * np.array([v[1] for v in self.ACTIONS.values()])
             self.nature = self.nature / sum(self.nature)
@@ -376,7 +404,7 @@ class OnlineSimulationDataSet(Dataset):
                         self.n_dont_go += 1
 
                     user.update_proba()  # update user vector
-                    previous_rounds += [(hotel, bot_message, user_action)]
+
 
                     last_didGo_True = last_didGo == 1
                     last_didWin_True = last_didWin == 1
@@ -402,7 +430,7 @@ class OnlineSimulationDataSet(Dataset):
 
                     # if self.advanced_reaction_time:
                     #     last_reaction_time = self.get_reaction_time(row)
-
+                    previous_rounds += [(hotel, bot_message, user_action, row)]
                     user_points += round_result
                     bot_points += user_action
 

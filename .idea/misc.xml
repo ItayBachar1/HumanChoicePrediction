@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" project-jdk-name="NLP11" project-jdk-type="Python SDK" />
+  <component name="Black">
+    <option name="sdkName" value="Remote Python 3.8.18 (sftp://student@nlpgpu2023w-0114.westus.cloudapp.azure.com:22/home/student/.virtualenvs/Final_Project_NLP_/bin/python3.8)" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Remote Python 3.8.18 (sftp://student@nlpgpu2023w-0114.westus.cloudapp.azure.com:22/home/student/.virtualenvs/Final_Project_NLP_/bin/python3.8)" project-jdk-type="Python SDK" />
 </project>
