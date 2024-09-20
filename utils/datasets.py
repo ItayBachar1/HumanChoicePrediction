@@ -274,10 +274,6 @@ class OnlineSimulationDataSet(Dataset):
                             8: ("llm_gpt4o", basic_nature[7], user_strategies.llm_model(gpt4o_generated_scores)),
                             9: ("llm_Llama3", basic_nature[8], user_strategies.llm_model(llama3_generated_scores)),
                             10: ("history_and_eilam_llm", basic_nature[9], user_strategies.history_and_llm(history_window, quality_threshold, proba2go, use_statistics=False)),
-                            11: ("history_and_eilam_stochastic_llm", basic_nature[10], user_strategies.history_and_llm_stochastic(history_window, quality_threshold, proba2go, use_statistics=False)),
-                            12: ("history_and_stochastic_llm_Llama3", basic_nature[11],
-                                 user_strategies.history_and_llm_stochastic(history_window, quality_threshold, llama3_generated_scores,
-                                                                            use_statistics=False)),
                             }
             self.nature = np.random.rand(len(self.ACTIONS)) * np.array([v[1] for v in self.ACTIONS.values()])
             self.nature = self.nature / sum(self.nature)
