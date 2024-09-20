@@ -12,7 +12,7 @@ command = [
 ]
 
 sweep_config = {
-    "name": "sweep history_and_eilam_stochastic_llm",
+    "name": "sweep history_and_eilam_llm",
     "method": "grid",
     "metric": {
         "goal": "maximize",
@@ -23,7 +23,7 @@ sweep_config = {
         "architecture": {"values": ["LSTM"]},
         "seed": {"values": list(range(1, 6))},
         "features": {"values": ["EFs"]},
-        "basic_nature": {'values': [27]},
+        "basic_nature": {'values': [26]},
     },
     "command": command
 }
